@@ -1,33 +1,32 @@
-%include "io.inc"
-
-section .text
-global CMAIN
-CMAIN:
-    mov ebp, esp; for correct debugging
-;TITLE Laba1st
-;.MODEL small
-;.DATA 
-;    x dw, 0
-;.STACK 256
-;.CODE
-;.STARTUP
+TITLE Laba1st
+.MODEL TINY
+.DATA 
+x dw 0 
+y dw 0
+.STACK 256
+.CODE
+.STARTUP
     mov ax, 15
     add ax, 4
-    div 4
-    mul 5
+    mov bx, 4
+    div bx   
+    mov cx, 5
+    mul cx
     mov bx, 43 
     sub bx, ax
 
     mov ax, 36
-    div 4
-    mov cx, ax
+    mov cx,4
+    div cx 
+    mov y, ax 
+   
     mov ax, 35
-    div 8
-    sub cx, ax
+    mov x, 8
+    div x
+    sub y, ax
     
     mov ax, bx
-    div cx
+    div y
     add ax, 33 
-    ret
-;.EXIT 0 
-;END
+.EXIT 0 
+END
