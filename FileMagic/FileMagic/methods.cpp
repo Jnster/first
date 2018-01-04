@@ -1,13 +1,13 @@
 #include "stdafx.h"
 //#include "headers.h"
 
+
 MyString::MyString(char *v)
 {
 	length = strlen(v);
 	str = new char[length+1];
-	for (int i = 0; i < length; i++)
-		str[i] = v[i];
-	str[length] = '\0';
+	strcpy(str, v);
+	//str[length] = '\0';
 	_strtime(mytime);
 }
 
@@ -43,6 +43,18 @@ void MyString::Print()
 	cout << "Строка: " << str << endl << "Длина: " << length << endl << "Время: " << mytime << endl;
 }
 
+ofstream& operator<<(ofstream& os, MyString &p)
+{
+	os << p.length; os.write(p.str, sizeof(char)*p.length+1);//<< ' ' << p.mytime;
+	return os;
+}
+
+ifstream& operator>>(ifstream& is, MyString &p)
+{
+	is >> p.length >> p.str >> p.mytime;
+	return is;
+}
+
 ostream& operator<< (ostream& os, MyString &p) {
 	os << " Длина: " << p.length << ", Строка: " << p.str << ", Время: " << p.mytime;
 	return os;
@@ -53,25 +65,35 @@ istream& operator>> (istream& is, MyString &p) {
 	return is;
 }
 
-ofstream& operator<<(ofstream& os, MyString &p)
+void MyString::write(ofstream& os)
 {
-	os << p.length << " " << p.str << " " << p.mytime;
-	return os;
-}
-ifstream& operator>>(ifstream& is, MyString &p)
-{
-	is >> p.length >> p.str >> p.mytime;
-	return is;
-}
-
-ofstream& operator<<(ofstream& os, MyString p)
-{
-	os << p.length << " " << p.str << " " << p.mytime;
-	return os;
+	os.write(reinterpret_cast<const char*>(&length), sizeof(length));
+	os.write(str, strlen(str) + 1);
+	os.write(reinterpret_cast<const char*>(&mytime), sizeof(mytime));
+	os.write(reinterpret_cast<const char*>("\n"), sizeof(char));
+	
+	//os.write(reinterpret_cast<const char*>(this), sizeof(MyString));
 }
 
-ifstream& operator>>(ifstream& is, MyString p)
+void MyString::read(istream& is)
 {
-	is >> p.length >> p.str >> p.mytime;
-	return is;
+	is.read(reinterpret_cast<char*>(&length), sizeof(length));
+
+	char ch;
+	int i = 0;
+	streampos s = is.tellg();
+
+	while ((ch = is.get()) != '\0') { i++; }
+	is.seekg(s);
+	if (str != nullptr) { delete[] str; }
+	str = new char[i + 1];
+	is.read(str, i + 1);
+
+	is.read(reinterpret_cast<char*>(&mytime), sizeof(mytime));
+	/*is.read((char*)this, sizeof(MyString));*/
+}
+
+size_t _sizeof(MyString& p)
+{
+	return sizeof(p.str) + sizeof(p.length) + sizeof(p.mytime);
 }

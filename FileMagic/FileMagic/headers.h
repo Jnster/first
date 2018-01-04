@@ -20,11 +20,11 @@ public:
 	~MyString();
 
 	void Print();
-	
-	friend ostream& operator<< (ostream& os, MyString &p);
-	friend istream& operator>> (istream& is, MyString &p);
-	friend ofstream& operator<< (ofstream& os, MyString &p);
-	friend ifstream& operator>> (ifstream& is, MyString &p);
-	friend ofstream& operator<< (ofstream& os, MyString p);
-	friend ifstream& operator>> (ifstream& os, MyString p);
+	friend ofstream& operator<< (ofstream&, MyString&);
+	friend ifstream& operator>> (ifstream&, MyString&);
+	friend ostream& operator << (ostream&, MyString&);
+	friend istream& operator >> (istream&, MyString&);
+	void write(ofstream&);
+	void read(istream&);
+	friend size_t _sizeof(MyString&);
 };

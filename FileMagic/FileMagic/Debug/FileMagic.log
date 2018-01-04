@@ -1,54 +1,17 @@
-﻿Сборка начата 23.12.2017 2:02:18.
-     1>Проект "D:\cods C\VS13U\FileMagic\FileMagic\FileMagic.vcxproj" в узле 2 (целевые объекты Build).
+﻿Сборка начата 04.01.2018 1:32:40.
+     1>Проект "D:\MY_GIT\first\FileMagic\FileMagic\FileMagic.vcxproj" в узле 2 (целевые объекты Build).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\FileMagic.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
-         stdafx.cpp
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\FileMagic.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt FileMagic.cpp methods.cpp
-         methods.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\FileMagic.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt FileMagic.cpp
          FileMagic.cpp
-     1>d:\cods c\vs13u\filemagic\filemagic\filemagic.cpp(20): error C2678: бинарный "<<": не найден оператор, принимающий левый операнд типа "std::ifstream" (или приемлемое преобразование отсутствует)
-                 d:\cods c\vs13u\filemagic\filemagic\headers.h(26): может быть "std::ofstream &operator <<(std::ofstream &,MyString &)"
-                 при попытке сопоставить список аргументов "(std::ifstream, MyString)"
-     1>d:\cods c\vs13u\filemagic\filemagic\filemagic.cpp(22): error C2371: file: переопределение; различные базовые типы
-                 d:\cods c\vs13u\filemagic\filemagic\filemagic.cpp(15): см. объявление "file"
-     1>d:\cods c\vs13u\filemagic\filemagic\filemagic.cpp(26): error C2088: >>: недопустимо для class
-     1>d:\cods c\vs13u\filemagic\filemagic\filemagic.cpp(28): error C2679: бинарный "<<": не найден оператор, принимающий правый операнд типа "MyString" (или приемлемое преобразование отсутствует)
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(498): может быть "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_streambuf<char,std::char_traits<char>> *)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(478): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(const void *)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(458): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(long double)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(438): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(418): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(float)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(397): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned __int64)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(377): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(__int64)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(356): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned long)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(336): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(long)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(316): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned int)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(291): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(int)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(271): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(unsigned short)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(237): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(short)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(217): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::_Bool)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(210): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::ios_base &(__cdecl *)(std::ios_base &))"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(203): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_ios<char,std::char_traits<char>> &(__cdecl *)(std::basic_ios<char,std::char_traits<char>> &))"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(197): или       "std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(std::basic_ostream<char,std::char_traits<char>> &(__cdecl *)(std::basic_ostream<char,std::char_traits<char>> &))"
-                 d:\cods c\vs13u\filemagic\filemagic\headers.h(26): или       "std::ofstream &operator <<(std::ofstream &,MyString &)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(1026): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const std::error_code &)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(988): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>,MyString>(std::basic_ostream<char,std::char_traits<char>> &&,const _Ty &)"
-                 with
-                 [
-                     _Ty=MyString
-                 ]
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(978): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,unsigned char)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(971): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const unsigned char *)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(964): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,signed char)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(957): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const signed char *)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(831): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,char)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(784): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char *)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(746): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,char)"
-                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\ostream(699): или       "std::basic_ostream<char,std::char_traits<char>> &std::operator <<<char,std::char_traits<char>>(std::basic_ostream<char,std::char_traits<char>> &,const char *)"
-                 при попытке сопоставить список аргументов "(std::ostream, MyString)"
-         Создание кода...
-     1>Сборка проекта "D:\cods C\VS13U\FileMagic\FileMagic\FileMagic.vcxproj" завершена (целевые объекты Build) с ошибкой.
+     1>d:\my_git\first\filemagic\filemagic\filemagic.cpp(19): warning C4101: i: неиспользованная локальная переменная
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\MY_GIT\first\FileMagic\Debug\FileMagic.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\MY_GIT\first\FileMagic\Debug\FileMagic.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\MY_GIT\first\FileMagic\Debug\FileMagic.lib" /MACHINE:X86 Debug\FileMagic.obj
+         Debug\MyString.obj
+         Debug\stdafx.obj
+         Debug\TrainTable.obj
+         FileMagic.vcxproj -> D:\MY_GIT\first\FileMagic\Debug\FileMagic.exe
+     1>Сборка проекта "D:\MY_GIT\first\FileMagic\FileMagic\FileMagic.vcxproj" завершена (целевые объекты Build).
 
-Ошибка сборки.
+Сборка успешно завершена.
 
-Затраченное время: 00:01:04.64
+Затраченное время: 00:00:01.96

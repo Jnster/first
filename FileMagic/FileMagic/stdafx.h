@@ -6,7 +6,9 @@
 #pragma once
 
 #include "targetver.h"
-#include "headers.h"
+#include "MyString.h"
+#include "TrainTable.h"
+#include "FileManipulator.h"
 
 #include <stdio.h>
 #include <tchar.h>
