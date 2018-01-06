@@ -9,6 +9,7 @@
 #include "MyString.h"
 #include "TrainTable.h"
 #include "FileManipulator.h"
+#include "MyTime.h"
 
 #include <stdio.h>
 #include <tchar.h>

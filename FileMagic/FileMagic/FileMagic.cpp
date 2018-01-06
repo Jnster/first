@@ -17,24 +17,24 @@ int main(int argc, _TCHAR* argv[])
 	FileManipulator<TrainTable> opa("out.bin");
 	int* station = new int[3];
 	int i;
-	station[0] = 6;
+	station[0] = 87;
 	station[1] = 87;
-	station[2] = 23;
+	station[2] = 87;
 	char* d = new char[12];
-	d = "ος βς ρπ ψγσε";
-	
+	d = "friday";
+	MyTime re(11, 11);
 	TrainTable empt;
 	TrainTable empt2;
 	TrainTable empt3;
 	TrainTable empt4;
 	TrainTable empt5;
 	TrainTable empt6;
-	TrainTable first(1, "34:67", "34:87", "ty1yg", d, 34, 65, station, 3);
-	TrainTable second(2, "04:67", "30:87", "ty2yg", d, 86, 74, station, 3);
-	TrainTable third(3, "07:45", "3:tr7", "y34yg", d, 86, 74, station, 3);
-	TrainTable forth(4, "04:67", "30:87", "ty4yg", d, 86, 74, station, 3);
-	TrainTable fifth(5, "04:67", "30:87", "ty5yg", "ος cfhfq", 86, 74, station, 3);
-	TrainTable sixth(6, "04:67", "30:87", "ty6yg", "ος cfhfq", 86, 74, station, 3);
+	TrainTable first(1, re, re, re, d, 34, 65, station, 3);
+	TrainTable second(2, re, re, re, d, 86, 74, station, 3);
+	TrainTable third(3, re,re, re, d, 86, 74, station, 3);
+	TrainTable forth(4, re, re, re, d, 86, 74, station, 3);
+	TrainTable fifth(5, re, re, re, "ος cfhfq", 86, 74, station, 3);
+	TrainTable sixth(6, re, re, re, "ος cfhfq", 86, 74, station, 3);
 	
 	/*
 	MyString empt;
@@ -53,7 +53,7 @@ int main(int argc, _TCHAR* argv[])
 	
 	opa.write(&first);
 	cout << opa.output.tellp() << endl;
-	/*opa.write(&second);
+	opa.write(&second);
 	cout << opa.output.tellp() << endl;
 	opa.write(&third);
 	cout << opa.output.tellp() << endl;
@@ -61,21 +61,13 @@ int main(int argc, _TCHAR* argv[])
 	cout << opa.output.tellp() << endl;
 	opa.write(&fifth);
 	cout << opa.output.tellp() << endl;
-	opa.write(&sixth);*/
+	opa.write(&sixth);
 //	opa.writePos(&sixth, 3);
 	//first.Print();
-
-	/*for (i = 0; i < opa.counter; i++)
-	{
-		MyString *e;
-		e = opa.read();
-		e->Print();
-	}*/
 	
-	//cout << opa.input.tellg() << " " << sizeof(re) << endl;
 	empt = opa.read();
+	cout << endl;
 	empt.Print();
-	first.Print();
 	cout << empt << endl;
 //	empt->Print(); TRUUUUBBLLEE print()
 	empt2 = opa.read();
