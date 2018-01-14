@@ -32,10 +32,9 @@ public:
 	void close();
 	void deletePos(int pos);
 	void edit(T obj, int pos);
-	void defraction();
+	void defragmentation();
 	void deleteFile();
 	void open(char* FileName);
-	//пока для отладки
 	void toStart();
 	//TODO:Реализовать
 	T* search(char*);
@@ -45,8 +44,8 @@ template<class T>
 FileManipulator<T>::FileManipulator(char* FileName)
 {
 	strcpy(this->fileName, FileName);
-	stream.open(fileName, ios_base::in | ios_base::out | ios_base::binary);
-	if (!stream.is_open()) stream.open(fileName, ios_base::in | ios_base::out | ios_base::binary | ios_base::trunc);
+	stream.open(fileName, ios::in | ios::out | ios::binary);
+	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary | ios::trunc);
 	counter = 0;
 	currentW = 0;
 	currentR = 0;
@@ -73,12 +72,12 @@ template<class T>
 void FileManipulator<T>::open(char* name)
 {
 	if (stream.is_open()) stream.close();
-	stream.open(name, ios_base::in | ios_base::out | ios_base::binary);
-	if (!stream.is_open()) stream.open(fileName, ios_base::in | ios_base::out | ios_base::binary | ios_base::trunc);
+	stream.open(name, ios::in | ios::out | ios::binary);
+	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary | ios::trunc);
 }
 
 template<class T>
-void FileManipulator<T>::defraction()
+void FileManipulator<T>::defragmentation()
 {
 	char bufName[255] = "BUFFER";
 	strcat(bufName, fileName);
@@ -94,7 +93,7 @@ void FileManipulator<T>::defraction()
 	} while (next != head);
 
 	stream.close();
-	stream.open(fileName, ios_base::in | ios_base::out | ios_base::binary | ios_base::trunc);
+	stream.open(fileName, ios::in | ios::out | ios::binary | ios::trunc);
 	counter = 0;
 	head = 0;
 	next = head;
@@ -303,44 +302,47 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 	int i;
 	long long y,prev,next,now,b,prevnew;
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
-	b = stream.tellg();
-	now = stream.tellp();
-	stream.seekp(sizeof(long long), ios_base::cur);
-	y = stream.tellp();
-	stream.seekg(y);
+	now = nextW;
+	stream.seekg(nextW);
+	stream.seekp(sizeof(long long)*2, ios_base::cur);
 	stream.read(reinterpret_cast<char*>(&prevnew), sizeof(long long));//Для запоминания ссылки на последний, записанный по порядку
 	stream.seekg(head);
 	if (counter >= pos)
 	{
 		//Находим позицию
 		cout << stream.tellg() << endl;
-		for (i = 0; i < pos; i++)
+		for (i = 1; i <= pos; i++)
 		{
 			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
 			stream.seekg(y);
 			cout << stream.tellg() << endl;
 		}
 		stream.read(reinterpret_cast<char*>(&next), sizeof(long long));
-		cout <<"next "<<next<< endl;
+		//cout <<"next "<<next<< endl;
+		stream.seekg(sizeof(long long), ios_base::cur);
 		stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
-		cout << "prev " << prev << endl;
-		cout << "now " << now << endl;
-		stream.seekp(now);
+		//cout << "prev " << prev << endl;
+		//cout << "now " << now << endl;
+		stream.seekp(nextW);
 		stream.write(reinterpret_cast<const char*>(&next), sizeof(long long));
+		stream.seekg(sizeof(long long), ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&prev), sizeof(long long));
+		y = stream.tellg();
 		this->write(obj);
-		y = stream.tellp();
+		nextW = stream.tellp();
+		stream.seekg(now);
+		stream.seekg(sizeof(long long), ios_base::cur);
+		stream.write(reinterpret_cast<const char*>(&y), sizeof(long long));
 		stream.seekp(prev);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
 		stream.seekp(next);
-		stream.seekp(sizeof(long long), ios_base::cur);
+		stream.seekp(sizeof(long long)*2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
-		stream.seekp(y);
+		stream.seekp(nextW);
 		stream.seekp(sizeof(long long)*2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&prevnew), sizeof(long long));
-		cout << "prevnew " << prevnew << endl;
-		stream.seekp(y);
+		//cout << "prevnew " << prevnew << endl;
+		stream.seekp(nextW);
 		counter++;
-		stream.seekg(b);
 	}
 }
