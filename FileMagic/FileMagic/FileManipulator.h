@@ -300,7 +300,7 @@ template<class T>
 void FileManipulator<T>::writePos(T* obj, int pos)
 {
 	int i;
-	long long y,prev,next,now,b,prevnew;
+	long long y,prev,nextu,now,prevnew;
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
 	now = nextW;
 	stream.seekg(nextW);
@@ -310,39 +310,33 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 	if (counter >= pos)
 	{
 		//Находим позицию
-		cout << stream.tellg() << endl;
 		for (i = 1; i <= pos; i++)
 		{
 			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
 			stream.seekg(y);
-			cout << stream.tellg() << endl;
 		}
-		stream.read(reinterpret_cast<char*>(&next), sizeof(long long));
-		//cout <<"next "<<next<< endl;
-		stream.seekg(sizeof(long long), ios_base::cur);
+		nextu = y;
+		stream.seekg(sizeof(long long)*2, ios_base::cur);
 		stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
-		//cout << "prev " << prev << endl;
-		//cout << "now " << now << endl;
 		stream.seekp(nextW);
-		stream.write(reinterpret_cast<const char*>(&next), sizeof(long long));
+		stream.write(reinterpret_cast<const char*>(&nextu), sizeof(long long));
 		stream.seekg(sizeof(long long), ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&prev), sizeof(long long));
 		y = stream.tellg();
-		this->write(obj);
-		nextW = stream.tellp();
-		stream.seekg(now);
+		stream.seekg(nextW);
 		stream.seekg(sizeof(long long), ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&y), sizeof(long long));
+		stream.seekg(y);
+		this->write(obj);
+		nextW = stream.tellp();
 		stream.seekp(prev);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
-		stream.seekp(next);
+		stream.seekp(nextu);
 		stream.seekp(sizeof(long long)*2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
 		stream.seekp(nextW);
 		stream.seekp(sizeof(long long)*2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&prevnew), sizeof(long long));
-		//cout << "prevnew " << prevnew << endl;
-		stream.seekp(nextW);
 		counter++;
 	}
 }

@@ -61,7 +61,7 @@ int main(int argc, _TCHAR* argv[])
 	opa.write(&sixth);
 	opa.writePos(&sixth, 3);
 
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		empt = opa.read();
 		cout << empt << endl;
