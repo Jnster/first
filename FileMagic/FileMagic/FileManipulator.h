@@ -306,7 +306,7 @@ T FileManipulator<T>::readPos(int pos)
 {
 	int i;
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
-	long long y;
+	long long y, d;
 	stream.seekg(0, ios_base::beg);
 	if (pos == 0)
 	{

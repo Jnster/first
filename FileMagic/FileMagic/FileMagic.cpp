@@ -59,10 +59,13 @@ int main(int argc, _TCHAR* argv[])
 	opa.write(&fifth);
 	cout << opa.stream.tellp() << endl;
 	opa.write(&sixth);
-	opa.writePos(&fifth, 4);
+//	opa.writePos(&fifth, 4);
 	//opa.write(&third);
 
 	opa.GetStruct();
+
+	empt = opa.readPos(3);
+	cout << empt << endl;
 
 	opa.close();
 	
