@@ -27,6 +27,7 @@ public:
 	T read();
 	T read(int pos);
 	T readPos(int pos);
+	void GetStruct();
 	void write(T* object);
 	void writePos(T* object, int pos);
 	void close();
@@ -123,6 +124,33 @@ template<class T>
 void FileManipulator<T>::toStart()
 {
 	next = head;
+}
+
+template<class T> void FileManipulator<T>::GetStruct()
+{
+	T info;
+	int i = 0;
+	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
+	long long y;
+	stream.seekg(0, ios_base::beg);
+	if (counter == 0) return;
+	if (counter == 1)
+	{
+		stream.seekg(sizeof(long long) * 3, ios_base::cur);
+		info.read(stream);
+		cout << info << endl;
+	}
+	else
+	{
+		for (i = 0; i < counter; i++)
+		{
+			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
+			stream.seekg(sizeof(long long) * 2, ios_base::cur);
+			info.read(stream);
+			cout << info << endl;
+			stream.seekg(y);
+		}
+	}
 }
 
 template<class T>
@@ -278,23 +306,33 @@ T FileManipulator<T>::read(int pos)
 	return *data;
 }
 
-template<class T>
+*/
+
+template<class T> 
 T FileManipulator<T>::readPos(int pos)
 {
 	int i;
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
 	long long y;
 	stream.seekg(0, ios_base::beg);
-	for (i = 0; i < pos; i++)
+	if (pos == 0)
 	{
-		stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
-		stream.seekg(y);
+		stream.seekg(sizeof(long long) * 3, ios_base::cur);
+		data.read(stream);
 	}
-	stream.seekg(sizeof(long long) * 2, ios_base::cur);
-	data->read(stream);
+	else
+	{
+		for (i = 0; i < pos; i++)
+		{
+			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
+			stream.seekg(y);
+		}
+		stream.seekg(sizeof(long long) * 3, ios_base::cur);
+		data.read(stream);
+	}
 	currentR += pos;
-	return *data;
-}*/
+	return data;
+}
 
 template<class T>
 void FileManipulator<T>::writePos(T* obj, int pos)
@@ -314,8 +352,9 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 		{
 			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
 			stream.seekg(y);
+			nextu = y;
 		}
-		nextu = y;
+		
 		stream.seekg(sizeof(long long)*2, ios_base::cur);
 		stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
 		stream.seekp(nextW);

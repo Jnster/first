@@ -59,20 +59,9 @@ int main(int argc, _TCHAR* argv[])
 	opa.write(&fifth);
 	cout << opa.stream.tellp() << endl;
 	opa.write(&sixth);
-	opa.writePos(&sixth, 3);
+	//opa.writePos(&fifth, 4);
 
-	for (int i = 0; i < 8; i++)
-	{
-		empt = opa.read();
-		cout << empt << endl;
-		cout << opa.stream.tellg() << endl;
-	}
-	
-	opa.toStart();
-
-	
-	cout << "___________После сжатия____________" << endl;
-
+	opa.GetStruct();
 
 	opa.close();
 	
