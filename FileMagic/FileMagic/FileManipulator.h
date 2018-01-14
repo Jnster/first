@@ -60,7 +60,7 @@ void FileManipulator<T>::deletePos(int pos)
 	long long buffer,br,bw,next,prev;
 
 	br = stream.tellg();
-	bw = stream.tellp();
+	//bw = stream.tellp();
 	stream.seekg(head);
 	for (int i = 1; i <= pos; i++)
 	{
@@ -68,19 +68,20 @@ void FileManipulator<T>::deletePos(int pos)
 		stream.seekg(buffer);
 	}
 	stream.read(reinterpret_cast<char*>(&next), sizeof(long long));
+	stream.seekg(sizeof(long long), ios_base::cur);
 	stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
-	stream.seekp(next); //(next + sizeof(long long)); ????
-	stream.seekp(sizeof(long long), ios_base::cur);
+	stream.seekp(next); //(next + sizeof(long long) * 2); ????
+	stream.seekp(sizeof(long long) * 2, ios_base::cur);
 	stream.write(reinterpret_cast<const char*>(&prev), sizeof(long long));
 	stream.seekp(prev);
 	stream.write(reinterpret_cast<const char*>(&next), sizeof(long long));
-	if ((br == head) && (pos == 0) && (this->next == head))
+	if ((pos == 0) && (this->next == head))
 	{
 		br = next;
 		this->next = next;
 	}
 	if (pos == 0) head = next;
-	stream.seekp(bw);
+	//stream.seekp(bw);
 	stream.seekg(br);
 	
 }
