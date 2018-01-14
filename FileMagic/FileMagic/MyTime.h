@@ -13,5 +13,6 @@ public:
 	void write(fstream& stream);
 	void read(fstream& stream);
 	friend ostream& operator<< (ostream& os, MyTime& MyTime);
+	friend istream& operator>> (istream& is, MyTime& MyTime);
 	MyTime& operator = (MyTime& MyTime);
 };

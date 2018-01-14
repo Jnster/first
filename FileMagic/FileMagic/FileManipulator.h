@@ -31,6 +31,8 @@ public:
 	void close();
 	void deletePos(int pos);
 	void edit(T obj, int pos);
+	//пока для отладки
+	void toStart();
 	//TODO:Реализовать
 	T* search(char*);
 };
@@ -55,9 +57,16 @@ FileManipulator<T>::~FileManipulator()
 }
 
 template<class T>
+void FileManipulator<T>::toStart()
+{
+	next = head;
+}
+
+template<class T>
 void FileManipulator<T>::edit(T obj, int pos)
 {
 	long long buffer, prevnew;
+	stream.seekg(head);
 	//подумать ещё о позиции нулевой
 	for (int i = 1; i <= pos; i++)
 	{
@@ -66,7 +75,8 @@ void FileManipulator<T>::edit(T obj, int pos)
 	}
 
 	stream.seekg(sizeof(long long), ios_base::cur);
-	buffer = stream.tellg();
+	//buffer = stream.tellg();
+	stream.write(reinterpret_cast<const char*>(&nextW), sizeof(long long));
 	stream.seekg(nextW);
 	stream.seekg(sizeof(long long) * 2, ios_base::cur);
 	stream.read(reinterpret_cast<char*>(&prevnew), sizeof(long long));

@@ -48,7 +48,6 @@ int main(int argc, _TCHAR* argv[])
 	MyString fifth("fifth5");
 	MyString sixth("sixth    6");*/
 	
-	
 	opa.write(&first);
 	cout << opa.stream.tellp() << endl;
 	opa.write(&second);
@@ -62,28 +61,24 @@ int main(int argc, _TCHAR* argv[])
 	opa.write(&sixth);
 	//opa.deletePos(3);
 	//opa.writePos(&sixth, 3);
-	
-	empt = opa.read();
-	cout << empt << endl;
-	cout << opa.stream.tellg() << endl;
-	empt2 = opa.read();
-	cout << empt2 << endl;
-	cout << opa.stream.tellg() << endl;
-	empt3 = opa.read();
-	cout << empt3 << endl;
-	cout << opa.stream.tellg() << endl;
-	empt4 = opa.read();
-	cout << empt4 << endl;
-	cout << opa.stream.tellg() << endl;
-	empt5 = opa.read();
-	cout << empt5 << endl;
-	cout << opa.stream.tellp() << endl;
-	empt5 = opa.read();
-	cout << empt5 << endl; 
-	cout << opa.stream.tellp() << endl;
-	empt5 = opa.read();
-	cout << empt5 << endl;
-	cout << opa.stream.tellp() << endl;
+
+	for (int i = 0; i < 7; i++)
+	{
+		empt = opa.read();
+		cout << empt << endl;
+		cout << opa.stream.tellg() << endl;
+	}
+
+	third.consoleRead();
+	opa.edit(third, 3);
+	opa.toStart();
+
+	for (int i = 0; i < 7; i++)
+	{
+		empt = opa.read();
+		cout << empt << endl;
+		cout << opa.stream.tellg() << endl;
+	}
 
 	opa.close();
 	

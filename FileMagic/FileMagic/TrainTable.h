@@ -35,6 +35,7 @@ public:
 
 	void operator = (TrainTable&);
 
+	void consoleRead();
 	void write(fstream&);
 	void read(fstream&);
 	void read(istream& Fstream,int pos);

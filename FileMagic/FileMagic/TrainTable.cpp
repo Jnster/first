@@ -178,3 +178,26 @@ void TrainTable::read(fstream &is)
 	day = new char[i + 1];
 	is.read(day, sizeof(char)*(i+1));
 }
+
+void TrainTable::consoleRead()
+{
+	int i;
+	if (day != nullptr) delete[]day;
+	if (travel_station != nullptr) delete[]travel_station;
+	cout << "Номер Поезда: "; cin >> number;
+	cout << "Время отправки поезда с первой станции: "; cin >> departure;
+	cout << "Время прибытия поезда на конечную станцию: "; cin >> destination;
+	cout << "Время поездки: "; cin >> travel;
+	cout << "Номер станции отправления: "; cin >> departure_station;
+	cout << "Номер станции прибытия: "; cin >> destination_station;
+	cout << "Количество промежуточных станций: "; cin >> count_station;
+	travel_station = new int[count_station];
+	cout << "Промежуточные станции: ";
+	for (i = 0; i < count_station; i++)
+	{
+		cin >> travel_station[i];
+	}
+	day = new char[255];
+	cout << "Введите дни недели: ";
+	cin.getline(day, 255); cin.getline(day, 255); //Понимает только со втрого раза
+}

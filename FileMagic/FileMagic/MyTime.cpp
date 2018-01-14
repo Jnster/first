@@ -36,6 +36,13 @@ void MyTime::read(fstream& is)
 	is.read(reinterpret_cast<char*>(&minute), sizeof(int));
 }
 
+istream& operator>> (istream& is, MyTime& t)
+{
+	char ch;
+	is >> t.hour >> ch >> t.minute;
+	return is;
+}
+
 ostream& operator<< (ostream& os, MyTime& t)
 {
 	os << t.hour << ':' << t.minute;
