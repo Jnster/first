@@ -13,7 +13,7 @@ private:
 public:
 	char fileName[MAX_STRING];
 	fstream stream;
-	long long head, next;
+	long long head, next, nextW;
 	T data;
 	int counter;
 	int currentW;
@@ -30,6 +30,7 @@ public:
 	void writePos(T* object, int pos);
 	void close();
 	void deletePos(int pos);
+	void edit(T obj, int pos);
 	//TODO:Реализовать
 	T* search(char*);
 };
@@ -43,6 +44,7 @@ FileManipulator<T>::FileManipulator(char* FileName)
 	currentR = 0;
 	head = 0;
 	next = head;
+	nextW = head;
 }
 
 template<class T>
@@ -53,14 +55,36 @@ FileManipulator<T>::~FileManipulator()
 }
 
 template<class T>
+void FileManipulator<T>::edit(T obj, int pos)
+{
+	long long buffer, prevnew;
+	//подумать ещё о позиции нулевой
+	for (int i = 1; i <= pos; i++)
+	{
+		stream.read(reinterpret_cast<char*>(&buffer), sizeof(long long));
+		stream.seekg(buffer);
+	}
+
+	stream.seekg(sizeof(long long), ios_base::cur);
+	buffer = stream.tellg();
+	stream.seekg(nextW);
+	stream.seekg(sizeof(long long) * 2, ios_base::cur);
+	stream.read(reinterpret_cast<char*>(&prevnew), sizeof(long long));
+	stream.seekg(nextW);
+	obj.write(stream);
+	nextW = stream.tellg();
+	stream.seekg(sizeof(long long) * 2, ios_base::cur);
+	stream.write(reinterpret_cast<const char*>(&prevnew), sizeof(long long));
+}
+
+template<class T>
 void FileManipulator<T>::deletePos(int pos)
 {
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
 	
-	long long buffer,br,bw,next,prev;
+	long long buffer,b,next,prev;
 
-	br = stream.tellg();
-	//bw = stream.tellp();
+	b = stream.tellg();
 	stream.seekg(head);
 	for (int i = 1; i <= pos; i++)
 	{
@@ -77,12 +101,11 @@ void FileManipulator<T>::deletePos(int pos)
 	stream.write(reinterpret_cast<const char*>(&next), sizeof(long long));
 	if ((pos == 0) && (this->next == head))
 	{
-		br = next;
+		b = next;
 		this->next = next;
 	}
 	if (pos == 0) head = next;
-	//stream.seekp(bw);
-	stream.seekg(br);
+	stream.seekg(b);
 	
 }
 
@@ -119,14 +142,14 @@ void FileManipulator<T>::write(T* obj)
 		stream.write(reinterpret_cast<const char*>(&p), sizeof(long long));
 		stream.seekp(p);
 		obj->write(stream);
-		p = stream.tellp();
+		nextW = stream.tellp();
 		stream.seekp(sizeof(long long)*2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&head), sizeof(long long));
 	}
 	else
 	{
 		long long prev, s = stream.tellp();
-		
+		stream.seekg(nextW);
 		stream.write(reinterpret_cast<const char*>(&head), sizeof(long long));// замыкаем список указатель "следующего" только что записанного объекта на первый
 		stream.seekp(sizeof(long long), ios_base::cur); //память под указатели
 		stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
@@ -136,7 +159,7 @@ void FileManipulator<T>::write(T* obj)
 		stream.write(reinterpret_cast<const char*>(&p), sizeof(long long));
 		stream.seekg(p);
 		obj->write(stream); //запись объекта
-		p = stream.tellp(); //позиция после записи
+		nextW = stream.tellp(); //позиция после записи
 		stream.seekp(sizeof(long long) * 2, ios_base::cur); //память под указатель "следующего" следующего объекта
 		stream.write(reinterpret_cast<const char*>(&s), sizeof(long long));// записываем в указатель "предыдущего" следующего объекта только что созданный
 		stream.seekp(head);
@@ -145,7 +168,7 @@ void FileManipulator<T>::write(T* obj)
 		stream.seekp(prev, ios_base::beg);
 		stream.write(reinterpret_cast<const char*>(&s), sizeof(long long));
 	}
-	stream.seekp(p);
+	stream.seekp(nextW);
 	counter++;
 	currentW++;
 }

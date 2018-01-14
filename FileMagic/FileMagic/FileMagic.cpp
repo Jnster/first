@@ -60,7 +60,7 @@ int main(int argc, _TCHAR* argv[])
 	opa.write(&fifth);
 	cout << opa.stream.tellp() << endl;
 	opa.write(&sixth);
-	opa.deletePos(3);
+	//opa.deletePos(3);
 	//opa.writePos(&sixth, 3);
 	
 	empt = opa.read();
