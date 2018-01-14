@@ -65,17 +65,17 @@ int main(int argc, _TCHAR* argv[])
 	
 	empt = opa.read();
 	cout << empt << endl;
-	cout << opa.stream.tellp() << endl;
+	cout << opa.stream.tellg() << endl;
 	empt2 = opa.read();
 	cout << empt2 << endl;
-	cout << opa.stream.tellp() << endl;
+	cout << opa.stream.tellg() << endl;
 	empt3 = opa.read();
 	cout << empt3 << endl;
-	cout << opa.stream.tellp() << endl;
+	cout << opa.stream.tellg() << endl;
 	empt4 = opa.read();
 	cout << empt4 << endl;
-	cout << opa.stream.tellp() << endl;
-	empt5 = opa.read();
+	cout << opa.stream.tellg() << endl;
+/*	empt5 = opa.read();
 	cout << empt5 << endl;
 	cout << opa.stream.tellp() << endl;
 	empt5 = opa.read();
@@ -83,7 +83,7 @@ int main(int argc, _TCHAR* argv[])
 	cout << opa.stream.tellp() << endl;
 	empt5 = opa.read();
 	cout << empt5 << endl;
-	cout << opa.stream.tellp() << endl;
+	cout << opa.stream.tellp() << endl;*/
 
 	opa.close();
 	

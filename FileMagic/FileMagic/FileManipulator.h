@@ -113,7 +113,7 @@ void FileManipulator<T>::write(T* obj)
 		buffer = stream.tellp();
 		stream.seekp(sizeof(long long), ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&head), sizeof(long long));
-		p = stream.tellg();
+		p = stream.tellp();
 		stream.seekp(buffer);
 		stream.write(reinterpret_cast<const char*>(&p), sizeof(long long));
 		stream.seekp(p);
@@ -130,9 +130,10 @@ void FileManipulator<T>::write(T* obj)
 		stream.seekp(sizeof(long long), ios_base::cur); //память под указатели
 		stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
 		p = stream.tellg(); //позиция перед записью
-		stream.seekg(s);
-		stream.seekg(sizeof(long long), ios_base::cur);
+		stream.seekp(s);
+		stream.seekp(sizeof(long long), ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&p), sizeof(long long));
+		stream.seekg(p);
 		obj->write(stream); //запись объекта
 		p = stream.tellp(); //позиция после записи
 		stream.seekp(sizeof(long long) * 2, ios_base::cur); //память под указатель "следующего" следующего объекта
