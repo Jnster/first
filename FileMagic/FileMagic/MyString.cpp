@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include <string.h>
-//#include "headers.h"
 
 
 MyString::MyString(char *v)
@@ -24,10 +23,9 @@ MyString::MyString(MyString &second_object)
 {
 	length = second_object.length;
 	strcpy(mytime, second_object.mytime);
-	//if (str != nullptr) delete[]str;
+//	if (str != nullptr) delete[]str; //Проверить при желании
 	str = new char[length+1];
 	strcpy(str, second_object.str);
-	//str[length] = '\0';
 }
 
 MyString::~MyString()
@@ -35,7 +33,6 @@ MyString::~MyString()
 	if (str != nullptr) {
 		delete[] str;
 	}
-	//cout <<endl<< "the destructor worked" << endl;
 }
 
 void MyString::Print()
@@ -45,7 +42,8 @@ void MyString::Print()
 
 ofstream& operator<<(ofstream& os, MyString &p)
 {
-	os << p.length; os.write(p.str, sizeof(char)*p.length+1);//<< ' ' << p.mytime;
+	os << p.length; os.write(p.str, sizeof(char)*p.length+1);
+	os.write(p.mytime, sizeof(char) * 9);
 	return os;
 }
 
@@ -81,7 +79,6 @@ void MyString::write(ofstream& os)
 	os.write(reinterpret_cast<const char*>(&length), sizeof(int));
 	os.write(reinterpret_cast<const char*>(str), sizeof(char)*(length+1));
 	os.write(reinterpret_cast<const char*>(&mytime), sizeof(char)*9);
-	//os.write(reinterpret_cast<const char*>("\n"), sizeof(char));
 }
 
 void MyString::read(istream& is)

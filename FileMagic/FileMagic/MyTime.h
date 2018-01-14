@@ -1,3 +1,4 @@
+#pragma once
 #include <fstream>
 using namespace std;
 
@@ -9,9 +10,8 @@ public:
 	MyTime(int hour, int minute);
 	MyTime(MyTime& MyTime);
 	~MyTime();
-	void write(ofstream& stream);
-	void read(ifstream& stream);
+	void write(fstream& stream);
+	void read(fstream& stream);
 	friend ostream& operator<< (ostream& os, MyTime& MyTime);
-	void operator = (MyTime& MyTime);
+	MyTime& operator = (MyTime& MyTime);
 };
-

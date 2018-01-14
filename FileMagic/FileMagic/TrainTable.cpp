@@ -129,7 +129,7 @@ void TrainTable::operator = (TrainTable& obj)
 }
 
 
-void TrainTable::write(ostream& os)
+void TrainTable::write(fstream& os)
 {
 	int i;
 	os.write(reinterpret_cast<const char*>(&number), sizeof(int));
@@ -145,10 +145,10 @@ void TrainTable::write(ostream& os)
 	}
 	i = strlen(day);
 	os.write(reinterpret_cast<const char*>(&i), sizeof(int));
-	os.write(reinterpret_cast<const char*>(&day), sizeof(char)*(i+1));
+	os.write(day, sizeof(char)*(i+1));
 }
 
-void TrainTable::read(istream &is)
+void TrainTable::read(fstream &is)
 {
 	int i;
 	if (day != nullptr) delete[]day;
@@ -167,5 +167,5 @@ void TrainTable::read(istream &is)
 	}
 	is.read(reinterpret_cast<char*>(&i), sizeof(int));
 	day = new char[i + 1];
-	is.read(reinterpret_cast<char*>(&day), sizeof(char)*(i+1));
+	is.read(day, sizeof(char)*(i+1));
 }

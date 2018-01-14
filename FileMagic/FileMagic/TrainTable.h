@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <cstdlib>
-//#include <MyTime.h>
 #include <fstream>
 #include <string>
 #include "MyTime.h"
@@ -12,7 +11,6 @@ using namespace std;
 class TrainTable
 {
 public:
-	//streampos prev;
 	MyTime departure;
 	MyTime travel;
 	MyTime destination;
@@ -22,7 +20,6 @@ public:
 	int departure_station;
 	int* travel_station;
 	int count_station;
-	//int next;
 
 	TrainTable();//конструктор по умолчанию
 	TrainTable(TrainTable&);
@@ -38,7 +35,7 @@ public:
 
 	void operator = (TrainTable&);
 
-	void write(ostream&);
-	void read(istream&);
+	void write(fstream&);
+	void read(fstream&);
 	void read(istream& Fstream,int pos);
 };

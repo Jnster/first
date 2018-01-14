@@ -2,10 +2,8 @@
 //
 
 #include "stdafx.h"
-//#include <fstream>
 #include <iostream>
 #include <locale>
-//#include"headers.h"
 
 using namespace std;
 
@@ -16,10 +14,10 @@ int main(int argc, _TCHAR* argv[])
 	//FileManipulator<MyString> opa("out.bin");
 	FileManipulator<TrainTable> opa("out.bin");
 	int* station = new int[3];
-	int i;
+
 	station[0] = 87;
-	station[1] = 87;
-	station[2] = 87;
+	station[1] = 54;
+	station[2] = 7;
 	char* d = new char[12];
 	d = "friday";
 	MyTime re(11, 11);
@@ -52,41 +50,44 @@ int main(int argc, _TCHAR* argv[])
 	
 	
 	opa.write(&first);
-	cout << opa.output.tellp() << endl;
+	cout << opa.stream.tellp() << endl;
 	opa.write(&second);
-	cout << opa.output.tellp() << endl;
+	cout << opa.stream.tellp() << endl;
 	opa.write(&third);
-	cout << opa.output.tellp() << endl;
+	cout << opa.stream.tellp() << endl;
 	opa.write(&forth);
-	cout << opa.output.tellp() << endl;
+	cout << opa.stream.tellp() << endl;
 	opa.write(&fifth);
-	cout << opa.output.tellp() << endl;
+	cout << opa.stream.tellp() << endl;
 	opa.write(&sixth);
-//	opa.writePos(&sixth, 3);
-	//first.Print();
+	//opa.deletePos(0);
+	//opa.writePos(&sixth, 3);
 	
 	empt = opa.read();
-	cout << endl;
-	empt.Print();
 	cout << empt << endl;
-//	empt->Print(); TRUUUUBBLLEE print()
+	cout << opa.stream.tellp() << endl;
 	empt2 = opa.read();
 	cout << empt2 << endl;
-	//empt2->Print();
-	//cout << empt <<" "<<sizeof(empt) << endl;
-	//empt2 = opa.read();
-	//cout << empt2 << " " << sizeof(empt2) << endl;
+	cout << opa.stream.tellp() << endl;
 	empt3 = opa.read();
-	cout << empt3 << " " << sizeof(empt3) << endl;
+	cout << empt3 << endl;
+	cout << opa.stream.tellp() << endl;
 	empt4 = opa.read();
-	cout << empt4 << " " << sizeof(empt4) << endl;
+	cout << empt4 << endl;
+	cout << opa.stream.tellp() << endl;
 	empt5 = opa.read();
-	cout << empt5 << " " << sizeof(empt5) << endl;
-	
+	cout << empt5 << endl;
+	cout << opa.stream.tellp() << endl;
+	empt5 = opa.read();
+	cout << empt5 << endl; 
+	cout << opa.stream.tellp() << endl;
+	empt5 = opa.read();
+	cout << empt5 << endl;
+	cout << opa.stream.tellp() << endl;
+
 	opa.close();
 	
 	
-	//cout << emp << endl; //<< ira << endl << ty << endl << re << endl;
 	system("pause");
 	return 0;
 }

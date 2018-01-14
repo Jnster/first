@@ -24,13 +24,13 @@ MyTime::~MyTime()
 {
 }
 
-void MyTime::write(ofstream& os)
+void MyTime::write(fstream& os)
 {
 	os.write(reinterpret_cast<const char*>(&hour), sizeof(int));
 	os.write(reinterpret_cast<const char*>(&minute), sizeof(int));
 }
 
-void MyTime::read(ifstream& is)
+void MyTime::read(fstream& is)
 {
 	is.read(reinterpret_cast<char*>(&hour), sizeof(int));
 	is.read(reinterpret_cast<char*>(&minute), sizeof(int));
@@ -42,8 +42,9 @@ ostream& operator<< (ostream& os, MyTime& t)
 	return os;
 }
 
-void MyTime::operator = (MyTime& t)
+MyTime& MyTime::operator = (MyTime& t)
 {
 	hour = t.hour;
 	minute = t.minute;
+	return *this;
 }
