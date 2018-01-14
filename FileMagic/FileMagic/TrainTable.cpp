@@ -133,10 +133,6 @@ void TrainTable::write(fstream& os)
 {
 	int i;
 	os.write(reinterpret_cast<const char*>(&number), sizeof(int));
-	/*os.write(reinterpret_cast<const char*>(&departure), sizeof(MyTime));
-	os.write(reinterpret_cast<const char*>(&destination), sizeof(MyTime));
-	os.write(reinterpret_cast<const char*>(&travel), sizeof(MyTime));
-	*/
 	departure.write(os);
 	destination.write(os);
 	travel.write(os);
@@ -158,11 +154,6 @@ void TrainTable::read(fstream &is)
 	if (day != nullptr) delete[]day;
 	if (travel_station != nullptr) delete[]travel_station;
 	is.read(reinterpret_cast<char*>(&number), sizeof(int));
-	/*
-	is.read(reinterpret_cast<char*>(&departure), sizeof(MyTime));
-	is.read(reinterpret_cast<char*>(&destination), sizeof(MyTime));
-	is.read(reinterpret_cast<char*>(&travel), sizeof(MyTime));
-	*/
 	departure.read(is);
 	destination.read(is);
 	travel.read(is);

@@ -22,7 +22,8 @@ public:
 	int count_station;
 
 	TrainTable();//конструктор по умолчанию
-	TrainTable(TrainTable&);
+	TrainTable(TrainTable&);//конструктор копирования
+	//конструктор с параметрами
 	TrainTable(int train_number, MyTime Departure, MyTime Destination, MyTime Travel, char* Day, int Destination_station, int Departure_station, int* Travel_station, int Count_station);//конструктор с параметрами
 	~TrainTable();
 

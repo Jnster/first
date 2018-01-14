@@ -17,26 +17,23 @@ public:
 	long long head, next, nextW;
 	T data;
 	int counter;
-	int currentW;
-	int currentR;
 
 	FileManipulator(char* FileName);
 
 	~FileManipulator();
 	
-	T read();
-	T read(int pos);
-	T readPos(int pos);
-	void GetStruct();
-	void write(T* object);
-	void writePos(T* object, int pos);
-	void close();
-	void deletePos(int pos);
-	void edit(T obj, int pos);
-	void defragmentation();
-	void deleteFile();
-	void open(char* FileName);
-	void toStart();
+	T read();//считывание по порядку
+	T readPos(int pos);//считывание по позиции
+	void GetStruct();//вывести на экран все элементы в файле
+	void write(T* object);//записать элемент в конец списка
+	void writePos(T* object, int pos);//записаь на позицию
+	void close();//закрыть файловый поток
+	void deletePos(int pos);//удалить по позиции
+	void edit(T obj, int pos);//редактировать элемент
+	void defragmentation();//сжатие (дефрагментация)
+	void deleteFile();//удалить файл
+	void open(char* FileName);//открыть файлоый поток
+	void toStart();//начать считывание по порядку с первого элемента
 	//TODO:Реализовать
 	T* search(char*);
 };
@@ -48,8 +45,6 @@ FileManipulator<T>::FileManipulator(char* FileName)
 	stream.open(fileName, ios::in | ios::out | ios::binary);
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary | ios::trunc);
 	counter = 0;
-	currentW = 0;
-	currentR = 0;
 	head = 0;
 	next = head;
 	nextW = head;
@@ -108,12 +103,6 @@ void FileManipulator<T>::defragmentation()
 		write(&data);
 	} while (buffer.next != buffer.head);
 
-	/*for (int i = 0; i < buffer.counter; i++)
-	{
-		data=buffer.read();
-		write(&data);
-	}*/
-
 	stream.close();
 	open(fileName);
 
@@ -121,7 +110,7 @@ void FileManipulator<T>::defragmentation()
 }
 
 template<class T>
-void FileManipulator<T>::toStart()
+void FileManipulator<T>::toStart() //считывание начать с головы
 {
 	next = head;
 }
@@ -131,12 +120,15 @@ template<class T> void FileManipulator<T>::GetStruct()
 	T info;
 	int i = 0;
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
-	long long y;
-	stream.seekg(0, ios_base::beg);
+	long long y, d;
+	//stream.seekg(0, ios_base::beg);
+	stream.seekg(head);
 	if (counter == 0) return;
 	if (counter == 1)
 	{
-		stream.seekg(sizeof(long long) * 3, ios_base::cur);
+		stream.seekg(sizeof(long long), ios_base::cur);
+		stream.read(reinterpret_cast<char*>(&d), sizeof(long long));
+		stream.seekg(d);
 		info.read(stream);
 		cout << info << endl;
 	}
@@ -145,7 +137,9 @@ template<class T> void FileManipulator<T>::GetStruct()
 		for (i = 0; i < counter; i++)
 		{
 			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
-			stream.seekg(sizeof(long long) * 2, ios_base::cur);
+			//stream.seekg(sizeof(long long) * 2, ios_base::cur);
+			stream.read(reinterpret_cast<char*>(&d), sizeof(long long));
+			stream.seekg(d);
 			info.read(stream);
 			cout << info << endl;
 			stream.seekg(y);
@@ -271,7 +265,6 @@ void FileManipulator<T>::write(T* obj)
 	}
 	stream.seekp(nextW);
 	counter++;
-	currentW++;
 }
 
 template<class T>
@@ -317,7 +310,9 @@ T FileManipulator<T>::readPos(int pos)
 	stream.seekg(0, ios_base::beg);
 	if (pos == 0)
 	{
-		stream.seekg(sizeof(long long) * 3, ios_base::cur);
+		stream.seekg(sizeof(long long), ios_base::cur);
+		stream.read(reinterpret_cast<char*>(&d), sizeof(long long));
+		stream.seekg(d);
 		data.read(stream);
 	}
 	else
@@ -327,10 +322,11 @@ T FileManipulator<T>::readPos(int pos)
 			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
 			stream.seekg(y);
 		}
-		stream.seekg(sizeof(long long) * 3, ios_base::cur);
+		stream.seekg(sizeof(long long), ios_base::cur);
+		stream.read(reinterpret_cast<char*>(&d), sizeof(long long));
+		stream.seekg(d);
 		data.read(stream);
 	}
-	currentR += pos;
 	return data;
 }
 
@@ -342,7 +338,7 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
 	now = nextW;
 	stream.seekg(nextW);
-	stream.seekp(sizeof(long long)*2, ios_base::cur);
+	stream.seekg(sizeof(long long)*2, ios_base::cur);
 	stream.read(reinterpret_cast<char*>(&prevnew), sizeof(long long));//Для запоминания ссылки на последний, записанный по порядку
 	stream.seekg(head);
 	if (counter >= pos)
@@ -352,9 +348,8 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 		{
 			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
 			stream.seekg(y);
-			nextu = y;
 		}
-		
+		nextu = y;
 		stream.seekg(sizeof(long long)*2, ios_base::cur);
 		stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
 		stream.seekp(nextW);
@@ -365,15 +360,14 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 		stream.seekg(nextW);
 		stream.seekg(sizeof(long long), ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&y), sizeof(long long));
-		stream.seekg(y);
-		this->write(obj);
-		nextW = stream.tellp();
 		stream.seekp(prev);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
 		stream.seekp(nextu);
-		stream.seekp(sizeof(long long)*2, ios_base::cur);
+		stream.seekp(sizeof(long long) * 2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
-		stream.seekp(nextW);
+		stream.seekg(y);
+		this->write(obj);
+		nextW = stream.tellp();
 		stream.seekp(sizeof(long long)*2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&prevnew), sizeof(long long));
 		counter++;
