@@ -14,7 +14,7 @@ int main(int argc, _TCHAR* argv[])
 	//FileManipulator<MyString> opa("out.bin");
 	FileManipulator<TrainTable> opa("out.bin");
 	int* station = new int[3];
-
+	int i;
 	station[0] = 87;
 	station[1] = 54;
 	station[2] = 7;
@@ -48,37 +48,56 @@ int main(int argc, _TCHAR* argv[])
 	MyString fifth("fifth5");
 	MyString sixth("sixth    6");*/
 	
-	opa.write(&first);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&second);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&third);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&forth);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&fifth);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&sixth);
-	//opa.deletePos(3);
+	for (i = 0; i < 100; i++)
+	{
+		opa.write(&first);
+		cout << opa.stream.tellp() << endl;
+		opa.write(&second);
+		cout << opa.stream.tellp() << endl;
+		opa.write(&third);
+		cout << opa.stream.tellp() << endl;
+		opa.write(&forth);
+		cout << opa.stream.tellp() << endl;
+		opa.write(&fifth);
+		cout << opa.stream.tellp() << endl;
+		opa.write(&sixth);
+	}
 	//opa.writePos(&sixth, 3);
 
-	for (int i = 0; i < 7; i++)
+	/*for (int i = 0; i < 7; i++)
 	{
 		empt = opa.read();
 		cout << empt << endl;
 		cout << opa.stream.tellg() << endl;
 	}
-
-	third.consoleRead();
-	opa.edit(third, 3);
+	*/
+	for (i = 0; i < 200; i++)
+	{
+		int r = rand() % 50;
+		opa.deletePos(r);
+	}
+	//third.consoleRead();
+	//opa.edit(third, 3);
 	opa.toStart();
 
-	for (int i = 0; i < 7; i++)
+	/*for (int i = 0; i < 7; i++)
 	{
 		empt = opa.read();
 		cout << empt << endl;
 		cout << opa.stream.tellg() << endl;
-	}
+	}*/
+//	opa.close();
+	//opa.open("out.bin");
+	opa.defraction();
+
+	cout << "___________После сжатия____________" << endl;
+
+	/*for (int i = 0; i < 7; i++)
+	{
+		empt = opa.read();
+		cout << empt << endl;
+		cout << opa.stream.tellg() << endl;
+	}*/
 
 	opa.close();
 	
@@ -86,4 +105,3 @@ int main(int argc, _TCHAR* argv[])
 	system("pause");
 	return 0;
 }
-

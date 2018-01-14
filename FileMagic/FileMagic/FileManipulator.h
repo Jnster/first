@@ -1,5 +1,6 @@
 #include <fstream>
 #include <string.h>
+#include <cstdio>
 
 #define MAX_STRING 255
 
@@ -31,6 +32,9 @@ public:
 	void close();
 	void deletePos(int pos);
 	void edit(T obj, int pos);
+	void defraction();
+	void deleteFile();
+	void open(char* FileName);
 	//пока для отладки
 	void toStart();
 	//TODO:Реализовать
@@ -41,6 +45,8 @@ template<class T>
 FileManipulator<T>::FileManipulator(char* FileName)
 {
 	strcpy(this->fileName, FileName);
+	stream.open(fileName, ios_base::in | ios_base::out | ios_base::binary);
+	if (!stream.is_open()) stream.open(fileName, ios_base::in | ios_base::out | ios_base::binary | ios_base::trunc);
 	counter = 0;
 	currentW = 0;
 	currentR = 0;
@@ -54,6 +60,64 @@ FileManipulator<T>::~FileManipulator()
 {
 //	if (fileName != nullptr)delete[] fileName;
 	if (stream.is_open()) stream.close();
+}
+
+template<class T>
+void FileManipulator<T>::deleteFile()
+{
+	stream.close();
+	remove(fileName);
+}
+
+template<class T>
+void FileManipulator<T>::open(char* name)
+{
+	if (stream.is_open()) stream.close();
+	stream.open(name, ios_base::in | ios_base::out | ios_base::binary);
+	if (!stream.is_open()) stream.open(fileName, ios_base::in | ios_base::out | ios_base::binary | ios_base::trunc);
+}
+
+template<class T>
+void FileManipulator<T>::defraction()
+{
+	char bufName[255] = "BUFFER";
+	strcat(bufName, fileName);
+	FileManipulator buffer(bufName);
+
+	toStart();
+	
+	do
+	{
+		data = read();
+		buffer.write(&data);
+
+	} while (next != head);
+
+	stream.close();
+	stream.open(fileName, ios_base::in | ios_base::out | ios_base::binary | ios_base::trunc);
+	counter = 0;
+	head = 0;
+	next = head;
+	nextW = head;
+
+	buffer.toStart();
+
+	do
+	{
+		data = buffer.read();
+		write(&data);
+	} while (buffer.next != buffer.head);
+
+	/*for (int i = 0; i < buffer.counter; i++)
+	{
+		data=buffer.read();
+		write(&data);
+	}*/
+
+	stream.close();
+	open(fileName);
+
+	buffer.deleteFile();
 }
 
 template<class T>
@@ -187,7 +251,6 @@ template<class T>
 void FileManipulator<T>::close()
 {
 	if (stream.is_open()) stream.close();
-	if (stream.is_open()) stream.close();
 }
 
 /*
@@ -273,7 +336,7 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 		stream.seekp(sizeof(long long), ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
 		stream.seekp(y);
-		stream.seekp(sizeof(long long), ios_base::cur);
+		stream.seekp(sizeof(long long)*2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&prevnew), sizeof(long long));
 		cout << "prevnew " << prevnew << endl;
 		stream.seekp(y);

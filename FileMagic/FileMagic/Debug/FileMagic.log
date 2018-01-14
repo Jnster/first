@@ -1,4 +1,4 @@
-﻿Сборка начата 14.01.2018 20:30:46.
+﻿Сборка начата 14.01.2018 23:04:50.
      1>Проект "D:\MY_GIT\first\FileMagic\FileMagic\FileMagic.vcxproj" в узле 2 (целевые объекты Build).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\FileMagic.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
@@ -20,4 +20,4 @@
 
 Сборка успешно завершена.
 
-Затраченное время: 00:00:03.17
+Затраченное время: 00:00:07.25
