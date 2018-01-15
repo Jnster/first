@@ -1,4 +1,5 @@
 #include "stdafx.h"
+//#include "TrainTable.h"
 #include <string.h>
 
 TrainTable::TrainTable(int train_number, MyTime Departure, MyTime Destination, MyTime Travel, char* Day, int Destination_station, int Departure_station, int* Travel_station, int Count_station)

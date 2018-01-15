@@ -130,6 +130,7 @@ template<class T> void FileManipulator<T>::GetStruct()
 		stream.read(reinterpret_cast<char*>(&d), sizeof(long long));
 		stream.seekg(d);
 		info.read(stream);
+		cout << "Запись с индексом: " << 0 << endl;
 		cout << info << endl;
 	}
 	else
@@ -141,6 +142,7 @@ template<class T> void FileManipulator<T>::GetStruct()
 			stream.read(reinterpret_cast<char*>(&d), sizeof(long long));
 			stream.seekg(d);
 			info.read(stream);
+			cout << "Запись с индексом: " << i << endl;
 			cout << info << endl;
 			stream.seekg(y);
 		}
@@ -177,10 +179,9 @@ void FileManipulator<T>::deletePos(int pos)
 {
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
 	
-	long long buffer,b,next,prev;
+	long long buffer,next,prev;
 
-	b = stream.tellg();
-	stream.seekg(head);
+		stream.seekg(head);
 	for (int i = 1; i <= pos; i++)
 	{
 		stream.read(reinterpret_cast<char*>(&buffer), sizeof(long long));
@@ -196,12 +197,10 @@ void FileManipulator<T>::deletePos(int pos)
 	stream.write(reinterpret_cast<const char*>(&next), sizeof(long long));
 	if ((pos == 0) && (this->next == head))
 	{
-		b = next;
 		this->next = next;
 	}
 	if (pos == 0) head = next;
-	stream.seekg(b);
-	
+	counter--;
 }
 
 template<class T>
@@ -216,7 +215,6 @@ T FileManipulator<T>::read()
 	//cout << "next " << next;
 	stream.seekg(dat);
 	data.read(stream);
-	currentR++;
 	return data;
 }
 
@@ -334,11 +332,11 @@ template<class T>
 void FileManipulator<T>::writePos(T* obj, int pos)
 {
 	int i;
-	long long y,prev,nextu,now,prevnew;
+	long long y, b, prev, nextu, now, prevnew;
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
 	now = nextW;
 	stream.seekg(nextW);
-	stream.seekg(sizeof(long long)*2, ios_base::cur);
+	stream.seekp(sizeof(long long) * 2, ios_base::cur);
 	stream.read(reinterpret_cast<char*>(&prevnew), sizeof(long long));//Для запоминания ссылки на последний, записанный по порядку
 	stream.seekg(head);
 	if (counter >= pos)
@@ -349,26 +347,30 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
 			stream.seekg(y);
 		}
-		nextu = y;
-		stream.seekg(sizeof(long long)*2, ios_base::cur);
+		nextu = stream.tellg();
+		stream.seekg(sizeof(long long) * 2, ios_base::cur);
 		stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
 		stream.seekp(nextW);
 		stream.write(reinterpret_cast<const char*>(&nextu), sizeof(long long));
-		stream.seekg(sizeof(long long), ios_base::cur);
+		//stream.seekg(sizeof(long long), ios_base::cur);
+		b = nextW + sizeof(long long) * 3;
+		stream.write(reinterpret_cast<const char*>(&b), sizeof(long long));
+
 		stream.write(reinterpret_cast<const char*>(&prev), sizeof(long long));
-		y = stream.tellg();
-		stream.seekg(nextW);
-		stream.seekg(sizeof(long long), ios_base::cur);
-		stream.write(reinterpret_cast<const char*>(&y), sizeof(long long));
+		//y = stream.tellg();
+		//stream.seekg(nextW);
+//		stream.seekg(sizeof(long long), ios_base::cur);
+		//stream.write(reinterpret_cast<const char*>(&y), sizeof(long long));
+		//stream.seekg(y);
+		obj->write(stream);
+		nextW = stream.tellp();
 		stream.seekp(prev);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
 		stream.seekp(nextu);
 		stream.seekp(sizeof(long long) * 2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&now), sizeof(long long));
-		stream.seekg(y);
-		this->write(obj);
-		nextW = stream.tellp();
-		stream.seekp(sizeof(long long)*2, ios_base::cur);
+		stream.seekp(nextW);
+		stream.seekp(sizeof(long long) * 2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&prevnew), sizeof(long long));
 		counter++;
 	}
