@@ -34,8 +34,6 @@ public:
 	void deleteFile();//удалить файл
 	void open(char* FileName);//открыть файлоый поток
 	void toStart();//начать считывание по порядку с первого элемента
-	//TODO:Реализовать
-	T* search(char*);
 };
 
 template<class T>
@@ -69,7 +67,7 @@ void FileManipulator<T>::open(char* name)
 {
 	if (stream.is_open()) stream.close();
 	stream.open(name, ios::in | ios::out | ios::binary);
-	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary | ios::trunc);
+	if (!stream.is_open()) stream.open(name, ios::in | ios::out | ios::binary | ios::trunc);
 }
 
 template<class T>
@@ -121,7 +119,6 @@ template<class T> void FileManipulator<T>::GetStruct()
 	int i = 0;
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
 	long long y, d;
-	//stream.seekg(0, ios_base::beg);
 	stream.seekg(head);
 	if (counter == 0) return;
 	if (counter == 1)
@@ -138,7 +135,6 @@ template<class T> void FileManipulator<T>::GetStruct()
 		for (i = 0; i < counter; i++)
 		{
 			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
-			//stream.seekg(sizeof(long long) * 2, ios_base::cur);
 			stream.read(reinterpret_cast<char*>(&d), sizeof(long long));
 			stream.seekg(d);
 			info.read(stream);
@@ -162,7 +158,6 @@ void FileManipulator<T>::edit(T obj, int pos)
 	}
 
 	stream.seekg(sizeof(long long), ios_base::cur);
-	//buffer = stream.tellg();
 	stream.write(reinterpret_cast<const char*>(&nextW), sizeof(long long));
 	stream.seekg(nextW);
 	stream.seekg(sizeof(long long) * 2, ios_base::cur);
@@ -190,7 +185,7 @@ void FileManipulator<T>::deletePos(int pos)
 	stream.read(reinterpret_cast<char*>(&next), sizeof(long long));
 	stream.seekg(sizeof(long long), ios_base::cur);
 	stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
-	stream.seekp(next); //(next + sizeof(long long) * 2); ????
+	stream.seekp(next); 
 	stream.seekp(sizeof(long long) * 2, ios_base::cur);
 	stream.write(reinterpret_cast<const char*>(&prev), sizeof(long long));
 	stream.seekp(prev);
@@ -206,13 +201,11 @@ void FileManipulator<T>::deletePos(int pos)
 template<class T>
 T FileManipulator<T>::read()
 {
-	//cout << "read" << endl;
 	long long dat;
 	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
 	stream.seekg(next);
 	stream.read(reinterpret_cast<char*>(&next), sizeof(long long));
 	stream.read(reinterpret_cast<char*>(&dat), sizeof(long long));
-	//cout << "next " << next;
 	stream.seekg(dat);
 	data.read(stream);
 	return data;
@@ -271,34 +264,6 @@ void FileManipulator<T>::close()
 	if (stream.is_open()) stream.close();
 }
 
-/*
-template<class T>
-T FileManipulator<T>::read(int pos)
-{
-	int i;
-	if (!stream.is_open()) stream.open(fileName, ios::in | ios::out | ios::binary);
-	long long y;
-	if (pos > 0)
-		for (i = 0; i < pos; i++)
-		{
-			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
-			stream.seekg(y);
-		}
-	else if (pos < 0)
-		for (i = pos; i <= 0; i++)
-		{
-			stream.seekg(sizeof(long long),ios_base::cur);
-			stream.read(reinterpret_cast<char*>(&y), sizeof(long long));
-			stream.seekg(y,ios_base::beg);
-		}
-	stream.seekg(sizeof(long long)*2, ios_base::cur);
-	data->read(stream);
-	currentR+=pos;
-	return *data;
-}
-
-*/
-
 template<class T> 
 T FileManipulator<T>::readPos(int pos)
 {
@@ -352,16 +317,9 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 		stream.read(reinterpret_cast<char*>(&prev), sizeof(long long));
 		stream.seekp(nextW);
 		stream.write(reinterpret_cast<const char*>(&nextu), sizeof(long long));
-		//stream.seekg(sizeof(long long), ios_base::cur);
 		b = nextW + sizeof(long long) * 3;
 		stream.write(reinterpret_cast<const char*>(&b), sizeof(long long));
-
 		stream.write(reinterpret_cast<const char*>(&prev), sizeof(long long));
-		//y = stream.tellg();
-		//stream.seekg(nextW);
-//		stream.seekg(sizeof(long long), ios_base::cur);
-		//stream.write(reinterpret_cast<const char*>(&y), sizeof(long long));
-		//stream.seekg(y);
 		obj->write(stream);
 		nextW = stream.tellp();
 		stream.seekp(prev);

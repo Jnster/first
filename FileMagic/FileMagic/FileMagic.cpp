@@ -12,16 +12,17 @@ int main(int argc, _TCHAR* argv[])
 	setlocale(LC_ALL, "Russian");
 	
 	FileManipulator<TrainTable> opa("default.bin");
-	int* station = new int[3];
+	//int* station = new int[3];
 	int i, ans = -1, pos;
+	TrainTable empt;
 	char name[255];
+	/*
 	station[0] = 87;
 	station[1] = 54;
 	station[2] = 7;
 	char* d = new char[12];
 	d = "friday";
 	MyTime re(11, 11);
-	TrainTable empt;
 	TrainTable empt2;
 	TrainTable empt3;
 	TrainTable empt4;
@@ -32,9 +33,9 @@ int main(int argc, _TCHAR* argv[])
 	TrainTable third(3, re,re, re, d, 86, 74, station, 3);
 	TrainTable forth(4, re, re, re, d, 86, 74, station, 3);
 	TrainTable fifth(5, re, re, re, "пт cfhfq", 86, 74, station, 3);
-	TrainTable sixth(6, re, re, re, "пт cfhfq", 86, 74, station, 3);
+	TrainTable sixth(6, re, re, re, "пт cfhfq", 86, 74, station, 3);*/
 		
-	/*while (ans != 0)
+	while (ans != 0)
 	{
 		cout << "ћеню:" << endl
 			<< "1)ќткрыть файл." << endl
@@ -54,6 +55,7 @@ int main(int argc, _TCHAR* argv[])
 		case 1:
 		{
 			cout << "¬ведите название файла: ";
+			cin.getline(name, 255);
 			cin.getline(name, 255);
 			opa.open(name);
 			cout << "‘айл открыт" << endl;
@@ -116,25 +118,25 @@ int main(int argc, _TCHAR* argv[])
 		default:
 			break;
 		}
-	}*/
+	}
 
-	opa.write(&first);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&second);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&third);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&forth);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&fifth);
-	cout << opa.stream.tellp() << endl;
-	opa.write(&sixth);
+	//opa.write(&first);
+	//cout << opa.stream.tellp() << endl;
+	//opa.write(&second);
+	//cout << opa.stream.tellp() << endl;
 	//opa.write(&third);
-	opa.writePos(&fifth, 3);
-	//opa.toStart();
-	opa.GetStruct();
+	//cout << opa.stream.tellp() << endl;
+	//opa.write(&forth);
+	//cout << opa.stream.tellp() << endl;
+	//opa.write(&fifth);
+	//cout << opa.stream.tellp() << endl;
+	//opa.write(&sixth);
+	////opa.write(&third);
+	//opa.writePos(&fifth, 3);
+	////opa.toStart();
+	//opa.GetStruct();
 
-	system("pause");
+	//system("pause");
 	opa.close();
 	return 0;
 }
