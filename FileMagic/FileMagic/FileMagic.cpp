@@ -113,6 +113,7 @@ int main(int argc, _TCHAR* argv[])
 			cout << "Введите элемент:" << endl;
 			empt.consoleRead();
 			opa.writePos(&empt, pos);
+			cout << "Элемент добавлен." << endl;
 			break;
 		}
 		default:
