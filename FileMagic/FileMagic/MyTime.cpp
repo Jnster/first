@@ -45,7 +45,10 @@ istream& operator>> (istream& is, MyTime& t)
 
 ostream& operator<< (ostream& os, MyTime& t)
 {
-	os << t.hour << ':' << t.minute;
+	if (t.hour < 10) os << '0';
+	os << t.hour << ':';
+	if (t.minute < 10) os << '0';
+	os << t.minute;
 	return os;
 }
 

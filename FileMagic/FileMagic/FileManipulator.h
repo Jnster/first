@@ -304,7 +304,7 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 	stream.seekp(sizeof(long long) * 2, ios_base::cur);
 	stream.read(reinterpret_cast<char*>(&prevnew), sizeof(long long));//ƒл€ запоминани€ ссылки на последний, записанный по пор€дку
 	stream.seekg(head);
-	if (counter >= pos)
+	if ((counter >= pos) && (pos >= 0))
 	{
 		//Ќаходим позицию
 		for (i = 1; i <= pos; i++)
@@ -331,5 +331,9 @@ void FileManipulator<T>::writePos(T* obj, int pos)
 		stream.seekp(sizeof(long long) * 2, ios_base::cur);
 		stream.write(reinterpret_cast<const char*>(&prevnew), sizeof(long long));
 		counter++;
+		if (pos == 0)
+		{
+			head = now;
+		}
 	}
 }
